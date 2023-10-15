@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var apiU = require('../controllers/user.controllers');
 
-router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Express' });
-});
+
+router.get('/users', apiU.listUser);
+router.post('/users/reg', apiU.reg);
+
 
 module.exports = router;
