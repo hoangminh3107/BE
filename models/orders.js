@@ -1,7 +1,13 @@
 const { default: mongoose } = require('mongoose');
 var db = require('./db');
 
-const orderSchema = new mongoose.Schema({
+
+const orderSchema = new mongoose.Schema(
+    {
+    userId: { 
+        type: String, 
+        required: true 
+    },
     name: {
         type: String,
         require: true
@@ -15,5 +21,13 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         require: true,
     },
-});
-let orderModel = db.mongoose.model('orderModel', orderSchema);
+},
+    {
+        collection: 'Order'
+    }
+
+);
+let Order = db.mongoose.model('Order', orderSchema);
+module.exports = {
+    Order
+}
