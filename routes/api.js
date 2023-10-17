@@ -19,7 +19,7 @@ router.post("/add/order", apiOder.createOrder);
 // lịch sủ mua hàng
 router.get("/history", apiHistory.getHistoryOrder);
 router.delete("/history/delete", apiHistory.deleteHistoryOrder);
-
+router.get("/ordersByUser/:userId", apiHistory.getHistoryUserOrder);
 //vouchers
 router.get("/voucher/getAll", apiVoucher.getVouchers);
 router.post("/voucher/create", apiVoucher.postVoucher);

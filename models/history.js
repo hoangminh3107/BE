@@ -2,6 +2,10 @@ const { default: mongoose } = require('mongoose');
 var db = require('./db');
 
 const historySchame = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'userModel'
+    },
     restaurantName: {
         type: String,
         require: true,
