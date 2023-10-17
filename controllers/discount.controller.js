@@ -4,6 +4,7 @@ exports.getDiscounts = async (req, res, next) => {
     let list = await discountModel.discountModel
       .find()
       .populate("idVoucher")
+      .populate("idUser")
       .exec();
     if (list) {
       return res
