@@ -1,4 +1,5 @@
 const HistoryOrder = require('../models/history');
+const {Order} = require('../models/orders');
 
 exports.getHistoryOrder = async (req, res) => {
     try {
@@ -8,6 +9,17 @@ exports.getHistoryOrder = async (req, res) => {
         return res.status(500).json({msg:  error.message }); 
     }
 };
+//lấy lịch sử theo id người đặt
+exports.getHistoryUserOrder = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const userHistoryOrders = await Order.find({ userID: userId});
+        res.json(userHistoryOrders);
+    } catch (error) {
+        console.error('Lỗi truy vấn lịch sử đơn hàng:', error);
+        return res.status(500).json({ msg: 'Lỗi máy chủ nội bộ' });
+    }
+}
 
 exports.deleteHistoryOrder = async (req, res) => {
     const id = req.params.id;
