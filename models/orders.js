@@ -5,11 +5,15 @@ const orderSchema = new mongoose.Schema(
     {
     userId: { 
         type: String, 
-        required: true 
+        required: true,
+    },
+    restaurantName: {
+        type: String,
+        require: true,
     },
     name: {
         type: String,
-        require: true
+        require: true,
     },
     image: String,
     price:{

@@ -3,8 +3,12 @@ var db = require('./db');
 
 const historySchame = new mongoose.Schema({
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'userModel'
+        type: String,
+        require: true,
+    },
+    orderId: {
+        type: String,
+        require: true,
     },
     restaurantName: {
         type: String,
@@ -22,6 +26,12 @@ const historySchame = new mongoose.Schema({
         type: Date,
         require: true,
     },
-    _id: mongoose.Schema.Types.ObjectId,
-});
-let historyOrder = db.mongoose.model('historyOrder', historySchame);
+},
+{
+    collection: 'histories'
+}
+);
+let historyModel = db.mongoose.model('historyModel', historySchame);
+module.exports = {
+    historyModel
+}
