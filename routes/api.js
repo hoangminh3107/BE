@@ -19,9 +19,9 @@ router.get("/order", apiOder.getOrders);
 router.post("/add/order", apiOder.createOrder);
 
 // lịch sủ mua hàng
-router.get("/history", apiHistory.getHistoryOrder);
-router.delete("/history/delete", apiHistory.deleteHistoryOrder);
-router.get("/ordersByUser/:userId", apiHistory.getHistoryUserOrder);
+router.get("/history", apiHistory.getHistory);
+router.delete("/history/delete", apiHistory.deleteHistory);
+router.get("/ordersByUser/:userId", apiHistory.getUserHistory);
 //vouchers
 router.get("/voucher/getAll", apiVoucher.getVouchers);
 router.post("/voucher/create", apiVoucher.postVoucher);
