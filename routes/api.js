@@ -44,4 +44,6 @@ router.post("/restaurant/delete/:id", apiRestaurant.deleteRestaurant);
 router.get("/category/getAll", apiCategory.getCategories);
 router.post("/category/create", apiCategory.createCategory);
 
+//products
+
 module.exports = router;
