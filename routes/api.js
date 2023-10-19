@@ -7,6 +7,8 @@ var apiVoucher = require("../controllers/voucher.controller");
 var apiSlider = require("../controllers/slider.controller");
 var apiDiscount = require("../controllers/discount.controller");
 var apiComment = require("../controllers/comment.controller");
+var apiRestaurant = require("../controllers/restautant.controller");
+var apiCategory = require("../controllers/category.controller");
 
 router.get("/users", apiU.listUser);
 router.post("/users/register", apiU.register);
@@ -32,5 +34,14 @@ router.get("/discount/getAll", apiDiscount.getDiscounts);
 //comment
 router.get("/comment/getAll", apiComment.getComment);
 router.post("/comment/create", apiComment.postComment);
+
+//restaurant
+router.get("/restaurant/getAll", apiRestaurant.getRestaurants);
+router.post("/restaurant/create", apiRestaurant.createRestaurant);
+router.post("/restaurant/delete/:id", apiRestaurant.deleteRestaurant);
+
+//category
+router.get("/category/getAll", apiCategory.getCategories);
+router.post("/category/create", apiCategory.createCategory);
 
 module.exports = router;

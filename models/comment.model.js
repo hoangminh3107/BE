@@ -9,6 +9,7 @@ const commentSchema = new mongoose.Schema(
   },
   {
     collection: "comments",
+    timestamps: true,
   }
 );
 commentModel = db.mongoose.model("commentModel", commentSchema);

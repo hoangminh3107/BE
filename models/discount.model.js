@@ -13,6 +13,7 @@ const discountSchema = new mongoose.Schema(
   },
   {
     collection: "discounts",
+    timestamps: true,
   }
 );
 discountModel = db.mongoose.model("discountModel", discountSchema);

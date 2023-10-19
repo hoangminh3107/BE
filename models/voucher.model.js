@@ -11,6 +11,7 @@ const voucherSchema = new mongoose.Schema(
   },
   {
     collection: "vouchers",
+    timestamps: true,
   }
 );
 voucherModel = db.mongoose.model("voucherModel", voucherSchema);
