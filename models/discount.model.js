@@ -7,11 +7,13 @@ const discountSchema = new mongoose.Schema(
       require: true,
     },
     idVoucher: { type: mongoose.Schema.ObjectId, ref: "voucherModel" },
+    idUser: { type: mongoose.Schema.ObjectId, ref: "userModel" },
 
     money_limit: Number,
   },
   {
     collection: "discounts",
+    timestamps: true,
   }
 );
 discountModel = db.mongoose.model("discountModel", discountSchema);

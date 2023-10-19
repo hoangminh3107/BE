@@ -7,6 +7,7 @@ const sliderSchema = new mongoose.Schema(
   },
   {
     collection: "sliders",
+    timestamps: true,
   }
 );
 sliderModel = db.mongoose.model("slider", sliderSchema);

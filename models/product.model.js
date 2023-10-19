@@ -12,9 +12,11 @@ const productSchema = new mongoose.Schema(
     price: Number,
     idCategory: String,
     idDiscount: String,
+    restaurantId: { type: mongoose.Schema.ObjectId, ref: "restaurantModel" },
   },
   {
     collection: "products",
+    timestamps: true,
   }
 );
 productModel = db.mongoose.model("productModel", productSchema);
