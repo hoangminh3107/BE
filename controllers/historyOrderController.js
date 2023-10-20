@@ -32,7 +32,7 @@ exports.getUserHistory = async (req, res) => {
         if (!userId || userId.length !== 24) {
             return res.status(400).json({ msg: 'ID người dùng không hợp lệ' });
         }
-        
+        //
         const userHistory = await History.find({ userId });
         
         if (!userHistory || userHistory.length === 0) {
