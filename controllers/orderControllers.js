@@ -1,6 +1,5 @@
-const  Order  = require('../models/orders');
-const { createHistory } = require('../controllers/historyOrderController');
-const userModel = require('../models/users.model');
+const  {Order } = require('../models/orders');
+const {History} = require('../models/history');
 
 exports.getOrders = async (req, res) => {
     try {
@@ -13,29 +12,35 @@ exports.getOrders = async (req, res) => {
 
 
 exports.createOrder = async (req, res) => {
-    try {
-        const { userId, restaurantName, name, image, price, quantity } = req.body;
-        const user = await userModel.findById(userId);
-        if (!user) {
-            return res.status(404).json({ msg: 'Người dùng không tồn tại' });
-        }
-        const order = new Order({
-            userId,
-            restaurantName,
-            name,
-            image,
-            price,
-            quantity,
-        });
-        const newOrder = await order.save();
-        const savedHistory = await createHistory(userId, newOrder._id, restaurantName, price);
+  try {
+      // Không cần sử dụng req.user._id nếu bạn không yêu cầu xác thực token
+      // Thay vào đó, bạn có thể xác định userId dựa trên yêu cầu hoặc các thông tin khác
+      // Ví dụ: const userId = req.body.userId;
 
-        if (!savedHistory) {
-            return res.status(500).json({ msg: 'Lỗi khi tạo lịch sử mua hàng' });
-        }
-        res.json(newOrder);
-    } catch (error) {
-        console.error('Lỗi khi tạo đơn hàng:', error);
-        res.status(500).json({ msg: 'Lỗi máy chủ nội bộ' });
-    }
+      // Tạo đơn hàng mà không sử dụng req.user._id
+      const order = new Order({
+          userId: req.body.userId,  // Thay đổi cách bạn xác định userId tại đây
+          restaurantName: req.body.restaurantName,
+          name: req.body.name,
+          image: req.body.image,
+          price: req.body.price,
+          quantity: req.body.quantity,
+      });
+      const newOrder = order.save();
+
+      const orderId = newOrder._id;
+
+      const history = new History({
+          userId: req.body.userId,  // Thay đổi cách bạn xác định userId tại đây
+          orderId,
+          restaurantName: req.body.restaurantName,
+          price: req.body.price,
+          time: new Date(),
+      });
+      const saveHistory = history.save();
+      res.json(saveHistory);
+  } catch (error) {
+      console.error('Lỗi khi tạo đơn hàng:', error);
+      res.status(500).json({ msg: 'Lỗi máy chủ nội bộ' });
+  }
 };
