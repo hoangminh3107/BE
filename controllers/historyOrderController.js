@@ -1,9 +1,9 @@
-const HistoryOrder = require('../models/history');
+const {History} = require('../models/history');
 const Order = require('../models/orders');
 
 exports.creatHistory = async (userId, orderId, restaurantName, price) => {
     try {
-        const history = new HistoryOrder({
+        const history = new History({
             userId,
             orderId,
             restaurantName,
@@ -19,7 +19,7 @@ exports.creatHistory = async (userId, orderId, restaurantName, price) => {
 };
 exports.getHistory = async (req, res) => {
     try {
-        const history = await HistoryOrder.find();
+        const history = await History.find();
         res.status(200).json(history);
     } catch (error) {
         return res.status(500).json({ msg: error.message });
@@ -29,7 +29,15 @@ exports.getHistory = async (req, res) => {
 exports.getUserHistory = async (req, res) => {
     try {
         const userId = req.params.userId;
-        const userHistory = await HistoryOrder.find({userId});
+        if (!userId || userId.length !== 24) {
+            return res.status(400).json({ msg: 'ID người dùng không hợp lệ' });
+        }
+        //
+        const userHistory = await History.find({ userId });
+        
+        if (!userHistory || userHistory.length === 0) {
+            return res.status(404).json({ msg: 'Không tìm thấy lịch sử mua hàng cho người dùng này' });
+        }
         res.json(userHistory);
     } catch (error) {
     console.error('Lỗi khi truy vấn lịch sử mua hàng:', error);
@@ -40,7 +48,7 @@ exports.getUserHistory = async (req, res) => {
 exports.deleteHistory = async (req, res) => {
     const orderId = req.params.orderId;
     try {
-        const deleted = await HistoryOrder.findOneAndDelete({orderId});
+        const deleted = await History.findOneAndDelete({orderId});
         if (!deleted) {
             return res.status(404).json({ msg: 'Không tìm thấy lịch sử mua hàng' });
         }

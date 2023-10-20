@@ -14,10 +14,6 @@ const historySchame = new mongoose.Schema({
         type: String,
         require: true,
     },
-    orderId: {
-        type: String,
-        require: true
-    },
     price:{ 
         type: Number,
         require: true
@@ -28,10 +24,11 @@ const historySchame = new mongoose.Schema({
     },
 },
 {
-    collection: 'histories'
+    collection: 'History'
 }
 );
-let historyModel = db.mongoose.model('historyModel', historySchame);
+let History = db.mongoose.model('History', historySchame);
 module.exports = {
-    historyModel
+    History
 }
+//
