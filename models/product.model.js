@@ -8,11 +8,14 @@ const productSchema = new mongoose.Schema(
       require: true,
     },
     images: [],
-    description: String,
-    price: Number,
+    description:{ type: String, required: false },
+    number:  { type: Number, required: false },
+    address: { type: String, required: false },
     idCategory: String,
     idDiscount: String,
     restaurantId: { type: mongoose.Schema.ObjectId, ref: "restaurantModel" },
+    categoryId: { type: mongoose.Schema.ObjectId, ref: "categoryModel" },
+
   },
   {
     collection: "products",
