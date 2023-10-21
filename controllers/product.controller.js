@@ -2,6 +2,7 @@ var productModel = require("../models/product.model");
 
 
 exports.getSuggest = async (req, res, next) => {
+  console.log(req);
     try {
       let list = await productModel.productModel.find();
       if (list) {

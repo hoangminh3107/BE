@@ -47,7 +47,7 @@ router.get("/category/getAll", apiCategory.getCategories);
 router.post("/category/create", apiCategory.createCategory);
 
 //products
-router.get("/product/:id", apiProduct.getProduct);
+router.get("/product/id/:id", apiProduct.getProduct);
 router.get("/product/suggest", apiProduct.getSuggest);
 
 
