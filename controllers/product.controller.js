@@ -7,7 +7,7 @@ exports.getSuggest = async (req, res, next) => {
       if (list) {
         return res
           .status(200)
-          .json({ data: list, msg: "Lấy  dữ liệu thành công" });
+          .json({ data: list, msg: "Lấy dữ liệu thành công" });
       } else {
         return res.status(400).json({ msg: "Không có dữ liệu" });
       }
