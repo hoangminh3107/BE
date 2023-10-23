@@ -2,15 +2,14 @@ var productModel = require("../models/product.model");
 
 
 exports.getSuggest = async (req, res, next) => {
-  console.log(req);
     try {
       let list = await productModel.productModel.find();
       if (list) {
         return res
           .status(200)
-          .json({ data: list, msg: "Lấy  dữ liệu restaurant thành công" });
+          .json({ data: list, msg: "Lấy  dữ liệu thành công" });
       } else {
-        return res.status(400).json({ msg: "Không có dữ liệu restaurant" });
+        return res.status(400).json({ msg: "Không có dữ liệu" });
       }
     } catch (error) {
       return res.status(500).json({ msg: error.message });
