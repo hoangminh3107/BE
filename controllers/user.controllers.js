@@ -64,7 +64,7 @@ exports.login = async (req, res, next)=>{
                 return res.status(401).json({msg: "sai mật khẩu"})
             }else{
                 console.log('Đăng nhập thành công');
-                return res.status(200).json({ msg: "Đăng nhập thành công"})
+                return res.status(200).json({data: user, msg: "Đăng nhập thành công"})
             }
         }        
  
