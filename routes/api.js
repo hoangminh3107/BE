@@ -11,10 +11,11 @@ var apiRestaurant = require("../controllers/restautant.controller");
 var apiCategory = require("../controllers/category.controller");
 var apiProduct = require("../controllers/product.controller");
 
-
+//user
 router.get("/users", apiU.listUser);
 router.post("/users/register", apiU.register);
 router.post("/users/login", apiU.login);
+router.post("/users/update/:id", apiU.update);
 
 // đơn hàng
 router.get("/order", apiOder.getOrders);
