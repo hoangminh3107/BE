@@ -13,6 +13,7 @@ var apiProduct = require("../controllers/product.controller");
 
 //user
 router.get("/users", apiU.listUser);
+router.get("/users/info/:id", apiU.infoUser);
 router.post("/users/register", apiU.register);
 router.post("/users/login", apiU.login);
 router.post("/users/update/:id", apiU.update);
@@ -50,6 +51,7 @@ router.post("/category/create", apiCategory.createCategory);
 //products
 router.get("/product/id/:id", apiProduct.getProduct);
 router.get("/product/suggest", apiProduct.getSuggest);
+router.post("/product/getbyname", apiProduct.getProductByName);
 
 
 module.exports = router;

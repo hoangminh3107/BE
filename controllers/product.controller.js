@@ -31,3 +31,18 @@ exports.getProduct = async (req, res, next) => {
         return res.status(204).json({ msg: error.message });
       }
 };
+exports.getProductByName = async (req, res, next) => {
+  const productName = req.body.name;
+  console.log(productName);
+  try {
+    const products = await productModel.productModel.find({ name: { $regex: productName, $options: 'i' } });
+
+    if (products.length === 0) {
+      return res.status(404).json({ msg: 'Không tìm thấy sản phẩm nào.' });
+    }
+
+    res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+};

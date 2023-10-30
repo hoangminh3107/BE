@@ -95,3 +95,16 @@ exports.login = async (req, res, next) => {
         return res.status(401).json({ msg: "Sai tài khoản hoặc mật khẩu" })
     }
 }
+
+exports.infoUser = async (req, res, next) => {
+    try {
+        const user = await userModel.userModel.findById(req.params.id);   
+        if (!user) {
+          return res.json({msg:'User không tồn tại'}).status(404);
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        console.log(error);
+        return res.status(404).json({ msg: error.message });
+    }
+}
