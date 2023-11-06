@@ -3,19 +3,15 @@ var db = require("./db");
 
 const productSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      require: true,
-    },
-    images: [],
-    description:{ type: String, required: false },
-    number:  { type: Number, required: false },
-    address: { type: String, required: false },
-    idCategory: String,
-    idDiscount: String,
+    name: String,
+    image: String,
+    description: String,
+    quantityInStock: Number,
+    price: Number,
+    idCategory: { type: mongoose.Schema.ObjectId, ref: "categoryModel" },
+    idDiscount: { type: mongoose.Schema.ObjectId, ref: "discountModel" },
     restaurantId: { type: mongoose.Schema.ObjectId, ref: "restaurantModel" },
     categoryId: { type: mongoose.Schema.ObjectId, ref: "categoryModel" },
-
   },
   {
     collection: "products",
