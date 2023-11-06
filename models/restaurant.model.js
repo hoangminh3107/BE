@@ -4,7 +4,6 @@ var db = require("./db");
 const restaurantSchema = new mongoose.Schema(
   {
     name: String,
-    listFood: [],
     image: String,
     address: String,
     timeon: String,
