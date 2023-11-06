@@ -38,7 +38,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.html" class="logo d-flex align-items-center">
-        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <img src="assets/img/logo.png" alt="">
         <span class="d-none d-lg-block">ADMIN</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -51,15 +51,17 @@
       </form>
     </div><!-- End Search Bar -->
 
-    <nav class="header-nav ms-auto">
+    <nav class="header-nav ms-auto" >
       <ul class="d-flex align-items-center">
-
+        <button type="button" class="btn mx-2" data-bs-toggle="modal" data-bs-target="#signInModal">
+          <i class="bi bi-person-circle text-b" style="font-size: 2em;"></i>
+        </button>
         <li class="nav-item d-block d-lg-none">
           <a class="nav-link nav-icon search-bar-toggle " href="#">
             <i class="bi bi-search"></i>
           </a>
         </li><!-- End Search Icon-->
-
+       
         <li class="nav-item dropdown">
 
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
@@ -97,33 +99,6 @@
                 <p>1 hr. ago</p>
               </div>
             </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-check-circle text-success"></i>
-              <div>
-                <h4>Sit rerum fuga</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>2 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-info-circle text-primary"></i>
-              <div>
-                <h4>Dicta reprehenderit</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>4 hrs. ago</p>
-              </div>
-            </li>
-
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -498,4 +473,162 @@
     </ul>
 
   </aside><!-- End Sidebar-->
-  
+
+  <div class="modal fade modal-xl" id="signInModal" tabindex="-1" aria-labelledby="signInModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-body">
+          <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#login">Đăng nhập</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#register">Đăng ký</a>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <div id="login" class="tab-pane fade show active">
+              <section class="">
+                <!-- Jumbotron -->
+                <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
+                  <div class="container">
+                    <div class="row gx-lg-5 align-items-center">
+                      <div class="col-lg-6 mb-5 mb-lg-0">
+                        <h1 class="my-5 display-3 fw-bold ls-tight">
+                          Hello ! <br />
+                          <span class="text-primary">Cảm ơn bạn đã đến</span>
+                        </h1>
+                        <p style="color: hsl(217, 10%, 50.8%)">
+                          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                          Eveniet, itaque accusantium odio, soluta, corrupti aliquam
+                          quibusdam tempora at cupiditate quis eum maiores libero
+                          veritatis? Dicta facilis sint aliquid ipsum atque?
+                        </p>
+                      </div>
+
+                      <div class="col-lg-6 mb-5 mb-lg-0">
+                        <div class="card">
+                          <div class="card-body py-5 px-md-5">
+                            <form action="/users/login" method="post" id="loginForm" onsubmit="return validateLogin()">
+                              <!-- 2 column grid layout with text inputs for the first and last names -->
+                              <div class="row">
+                                
+                                  <div class="form-label">
+                                    <label class="form-label" for="loginUsername">Tên đăng nhập</label>
+                                    <input type="text" id="loginUsername" class="form-control" name="username" />
+                                  </div>
+                                      
+                              </div>                             
+
+                              <!-- Password input -->
+                              <div class="form-outline mb-4">
+                                <label class="form-label" for="loginPassword">Mật khẩu</label>
+                                <input type="password" id="loginPassword" class="form-control" name="password" />
+                              </div>
+
+                              <!-- Checkbox -->
+                              <div class="form-check d-flex justify-content-center mb-4">
+                                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" />
+                                <label class="form-check-label" for="form2Example33">
+                                  Lưu mật khẩu
+                                </label>
+                              </div>
+
+                              <!-- Submit button -->
+                              <button type="submit" class="btn btn-primary btn-block mb-4">
+                                Đăng nhập
+                              </button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Jumbotron -->
+              </section>
+            </div>
+            <div id="register" class="tab-pane fade">
+              <section class="">
+                <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
+                  <div class="container">
+                    <div class="row gx-lg-5 align-items-center">
+                      <div class="col-lg-6 mb-5 mb-lg-0">
+                        <h1 class="my-5 display-3 fw-bold ls-tight">
+                          Hãy đăng ký ngay ! <br />
+
+                        </h1>
+                        <p style="color: hsl(217, 10%, 50.8%)">
+                          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                          Eveniet, itaque accusantium odio, soluta, corrupti aliquam
+                          quibusdam tempora at cupiditate quis eum maiores libero
+                          veritatis? Dicta facilis sint aliquid ipsum atque?
+                        </p>
+                      </div>
+
+                      <div class="col-lg-6 mb-5 mb-lg-0">
+                        <div class="card">
+                          <div class="card-body py-5 px-md-5">
+                            <form action="/users/signup" method="post" id="signUpForm">
+                              <!-- 2 column grid layout with text inputs for the first and last names -->
+                              <div class="row">
+                                <div class="form-outline mb-4">
+                                  <div class="form-label">
+                                    <label class="form-label" for="signupUsername">Tên đăng nhập</label>
+                                    <input type="text" id="signupUsername" class="form-control" name="username" />
+                                  </div>
+                                </div>
+                               
+                              </div>
+
+                              <!-- Email input -->
+                              <div class="form-outline mb-4">
+                                <label class="form-label" for="signupEmail">Email</label>
+                                <input type="email" id="signupEmail" class="form-control" name="email" />
+
+                              </div>
+
+                              <!-- Password input -->
+                              <div class="form-outline mb-4">
+                                <label class="form-label" for="signupPassword">Mật khẩu</label>
+                                <input type="password" id="signupPassword" class="form-control" name="password" />
+                              </div>
+
+                              <div class="form-outline mb-4">
+                                <label class="form-label" for="signupRePassword">Nhập lại mật khẩu</label>
+                                <input type="password" id="signupRePassword" class="form-control"
+                                  name="rePassword" />
+                              </div>
+
+                              <!-- Checkbox -->
+                              <div class="form-check d-flex justify-content-center mb-4">
+                                <input class="form-check-input me-2" type="checkbox" value="" id="signupCheck" />
+                                <label class="form-check-label" for="signupCheck">
+                                  Đồng ý điều khoản và bảo mật
+                                </label>
+                              </div>
+
+                              <!-- Submit button -->
+                              <button type="submit" class="btn btn-primary btn-block mb-4">
+                                Đăng ký
+                              </button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
