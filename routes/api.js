@@ -52,6 +52,6 @@ router.post("/category/create", apiCategory.createCategory);
 router.get("/product/id/:id", apiProduct.getProduct);
 router.get("/product/suggest", apiProduct.getSuggest);
 router.post("/product/getbyname", apiProduct.getProductByName);
-
+router.post("/product/addProduct", apiProduct.addProduct);
 
 module.exports = router;
