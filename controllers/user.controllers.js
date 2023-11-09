@@ -155,13 +155,23 @@ exports.weblogin = async (req, res, next) => {
       } else {
         console.log("Đăng nhập thành công");
         req.session.user = user;
-        return res
-          .status(200)
-          .json({ data: user, msg: "Đăng nhập thành công" });
+        console.log(req.session);
+        res.redirect("/");
       }
     }
   } catch (error) {
     console.log(error);
     return res.status(401).json({ msg: "Sai tài khoản hoặc mật khẩu" });
   }
+};
+
+exports.weblogout = async (req, res, next) => {
+  console.log("aaaa");
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/");
+    }
+  });
 };

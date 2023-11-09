@@ -22,10 +22,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static("public"));
+
 app.use(
   session({
-    secret: "your-secret-key",
-    resave: false,
+    secret: "nhvhi3432j492j35nfdshfuasfjanuhas1249jasjcnydfy2h3nksjdfh9", // chuỗi kí tự đặc biệt để mã hoá
+    resave: true,
     saveUninitialized: true,
   })
 );

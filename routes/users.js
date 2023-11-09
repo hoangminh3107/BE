@@ -10,5 +10,6 @@ router.get("/", function (req, res, next) {
 /*Authorize*/
 router.post("/signup", user.webregister);
 router.post("/login", user.weblogin);
+router.get("/logout", user.weblogout);
 
 module.exports = router;
