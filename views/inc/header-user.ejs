@@ -176,13 +176,13 @@
   
             <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
               <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-              <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+              <span class="d-none d-md-block dropdown-toggle ps-2"><%= req.session.user.username %></span>
             </a><!-- End Profile Iamge Icon -->
   
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
               <li class="dropdown-header">
-                <h6>Kevin Anderson</h6>
-                <span>Web Designer</span>
+                <h6><%= req.session.user.username %></h6>
+                <span><%= req.session.user.email %></span>
               </li>
               <li>
                 <hr class="dropdown-divider">
@@ -321,161 +321,7 @@
 
   </aside><!-- End Sidebar-->
 
-  <div class="modal fade modal-xl" id="signInModal" tabindex="-1" aria-labelledby="signInModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-
-        <div class="modal-body">
-          <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
-          <ul class="nav nav-tabs">
-            <li class="nav-item">
-              <a class="nav-link active" data-toggle="tab" href="#login">Đăng nhập</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#register">Đăng ký</a>
-            </li>
-          </ul>
-
-          <div class="tab-content">
-            <div id="login" class="tab-pane fade show active">
-              <section class="">
-                <!-- Jumbotron -->
-                <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
-                  <div class="container">
-                    <div class="row gx-lg-5 align-items-center">
-                      <div class="col-lg-6 mb-5 mb-lg-0">
-                        <h1 class="my-5 display-3 fw-bold ls-tight">
-                          Hello ! <br />
-                          <span class="text-primary">Cảm ơn bạn đã đến</span>
-                        </h1>
-                        <p style="color: hsl(217, 10%, 50.8%)">
-                          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                          Eveniet, itaque accusantium odio, soluta, corrupti aliquam
-                          quibusdam tempora at cupiditate quis eum maiores libero
-                          veritatis? Dicta facilis sint aliquid ipsum atque?
-                        </p>
-                      </div>
-
-                      <div class="col-lg-6 mb-5 mb-lg-0">
-                        <div class="card">
-                          <div class="card-body py-5 px-md-5">
-                            <form action="/users/login" method="post" id="loginForm" onsubmit="return validateLogin()">
-                              <!-- 2 column grid layout with text inputs for the first and last names -->
-                              <div class="row">
-                                
-                                  <div class="form-label">
-                                    <label class="form-label" for="loginUsername">Tên đăng nhập</label>
-                                    <input type="text" id="loginUsername" class="form-control" name="username" />
-                                  </div>
-                                      
-                              </div>                             
-
-                              <!-- Password input -->
-                              <div class="form-outline mb-4">
-                                <label class="form-label" for="loginPassword">Mật khẩu</label>
-                                <input type="password" id="loginPassword" class="form-control" name="password" />
-                              </div>
-
-                              <!-- Checkbox -->
-                              <div class="form-check d-flex justify-content-center mb-4">
-                                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" />
-                                <label class="form-check-label" for="form2Example33">
-                                  Lưu mật khẩu
-                                </label>
-                              </div>
-
-                              <!-- Submit button -->
-                              <button type="submit" class="btn btn-primary btn-block mb-4">
-                                Đăng nhập
-                              </button>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Jumbotron -->
-              </section>
-            </div>
-            <div id="register" class="tab-pane fade">
-              <section class="">
-                <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
-                  <div class="container">
-                    <div class="row gx-lg-5 align-items-center">
-                      <div class="col-lg-6 mb-5 mb-lg-0">
-                        <h1 class="my-5 display-3 fw-bold ls-tight">
-                          Hãy đăng ký ngay ! <br />
-
-                        </h1>
-                        <p style="color: hsl(217, 10%, 50.8%)">
-                          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                          Eveniet, itaque accusantium odio, soluta, corrupti aliquam
-                          quibusdam tempora at cupiditate quis eum maiores libero
-                          veritatis? Dicta facilis sint aliquid ipsum atque?
-                        </p>
-                      </div>
-
-                      <div class="col-lg-6 mb-5 mb-lg-0">
-                        <div class="card">
-                          <div class="card-body py-5 px-md-5">
-                            <form action="/users/signup" method="post" id="signUpForm">
-                              <!-- 2 column grid layout with text inputs for the first and last names -->
-                              <div class="row">
-                                <div class="form-outline mb-4">
-                                  <div class="form-label">
-                                    <label class="form-label" for="signupUsername">Tên đăng nhập</label>
-                                    <input type="text" id="signupUsername" class="form-control" name="username" />
-                                  </div>
-                                </div>
-                               
-                              </div>
-
-                              <!-- Email input -->
-                              <div class="form-outline mb-4">
-                                <label class="form-label" for="signupEmail">Email</label>
-                                <input type="email" id="signupEmail" class="form-control" name="email" />
-
-                              </div>
-
-                              <!-- Password input -->
-                              <div class="form-outline mb-4">
-                                <label class="form-label" for="signupPassword">Mật khẩu</label>
-                                <input type="password" id="signupPassword" class="form-control" name="password" />
-                              </div>
-
-                              <div class="form-outline mb-4">
-                                <label class="form-label" for="signupRePassword">Nhập lại mật khẩu</label>
-                                <input type="password" id="signupRePassword" class="form-control"
-                                  name="rePassword" />
-                              </div>
-
-                              <!-- Checkbox -->
-                              <div class="form-check d-flex justify-content-center mb-4">
-                                <input class="form-check-input me-2" type="checkbox" value="" id="signupCheck" />
-                                <label class="form-check-label" for="signupCheck">
-                                  Đồng ý điều khoản và bảo mật
-                                </label>
-                              </div>
-
-                              <!-- Submit button -->
-                              <button type="submit" class="btn btn-primary btn-block mb-4">
-                                Đăng ký
-                              </button>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  
 </section>
 
 </main>

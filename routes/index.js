@@ -1,13 +1,14 @@
 var express = require("express");
 const session = require("express-session");
+const { yeu_cau_dang_nhap } = require("../middleware/checklogin");
 var router = express.Router();
 
 /* GET home page. */
-router.get("/", function (req, res, next) {
+router.get("/", yeu_cau_dang_nhap, function (req, res, next) {
   res.render("index", { title: "Express", req: req });
 });
 router.get("/addProduct", function (req, res, next) {
-  res.render("product/addProduct", { title: "Express" });
+  res.render("product/addProduct", { title: "Express", req: req });
 });
 router.get("/home", function (req, res, next) {
   res.render("home", { title: "Express" });

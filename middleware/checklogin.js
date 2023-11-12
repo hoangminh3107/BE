@@ -1,8 +1,10 @@
 exports.yeu_cau_dang_nhap = (req, res, next) => {
   if (req.session.user) {
+    console.log("đã đăng nhập");
     next();
   } else {
-    return res.render("home/home", {
+    console.log("chưa đăng nhập");
+    return res.render("authorize/authorize", {
       message: "Bạn phải đăng nhập để sử dụng chức năng này",
       req: req,
     });
