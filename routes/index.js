@@ -8,6 +8,12 @@ router.get("/", yeu_cau_dang_nhap);
 router.get("/addProduct", function (req, res, next) {
   res.render("product/addProduct", { title: "Express", req: req });
 });
+router.get("/showProduct", function (req, res, next) {
+  res.render("product/showProduct", { title: "Express" });
+});
+router.get("/editProduct", function (req, res, next) {
+  res.render("product/editProduct", { title: "Express" });
+});
 router.get("/home", function (req, res, next) {
   res.render("home", { title: "Express" });
 });
