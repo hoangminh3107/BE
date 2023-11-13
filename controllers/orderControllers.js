@@ -13,24 +13,25 @@ exports.getOrders = async (req, res) => {
 //
 
 exports.createOrder = async (req, res) => {
-  console.log(product);
+
   try {
       if (!req.body.userId || !req.body.productId || !req.body.quantity) {
           return res.status(400).json({ msg: 'Vui lòng cung cấp đủ thông tin: userId, productId, quantity' });
       }
 
-      const product = await productModel.findById(req.body.productId).populate('restaurantId', 'name');
+      const product = await productModel.findById(req.body.productId).populate({path: 'restaurantId',select: 'name'});
 
-      if (!product) {
-          return res.status(404).json({ msg: 'Không tìm thấy sản phẩm' });
+      if (!product || !product.restaurantId) {
+          return res.status(404).json({ msg: 'Không tìm thấy sản phẩm hoặc thông tin nhà hàng' });
       }
 
+      console.log(product);
       const order = new Order({
           userId: req.body.userId,
           restaurantName: product.restaurantId.name,
           name: product.name,
           image: product.image,
-          price: product.price,
+          price: product.realPrice,
           quantity: req.body.quantity,
       });
 
@@ -42,7 +43,7 @@ exports.createOrder = async (req, res) => {
           userId: req.body.userId,
           orderId,
           restaurantName: product.restaurantId.name,
-          price: product.price,
+          price: product.realPrice,
           time: new Date(),
       });
 
