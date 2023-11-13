@@ -4,9 +4,7 @@ const { yeu_cau_dang_nhap } = require("../middleware/checklogin");
 var router = express.Router();
 
 /* GET home page. */
-router.get("/", yeu_cau_dang_nhap, function (req, res, next) {
-  res.render("index", { title: "Express", req: req });
-});
+router.get("/", yeu_cau_dang_nhap);
 router.get("/addProduct", function (req, res, next) {
   res.render("product/addProduct", { title: "Express", req: req });
 });
