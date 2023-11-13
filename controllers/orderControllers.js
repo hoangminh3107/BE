@@ -44,3 +44,21 @@ exports.createOrder = async (req, res) => {
       res.status(500).json({ msg: 'Lỗi máy chủ nội bộ' });
   }
 };
+exports.getRevenue = async (req, res) => {
+    try {
+      const result = await Order.aggregate([
+        {
+          $group: {
+            _id: null,
+            totalRevenue: { $sum: { $multiply: ['$price', '$quantity'] } },
+          },
+        },
+      ]);
+  
+      
+      res.status(200).json(result[0]);
+    } catch (error) {
+     
+      return res.status(500).json({ msg: error.message });
+    }
+  };
