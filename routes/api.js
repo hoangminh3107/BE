@@ -21,6 +21,7 @@ router.post("/users/update/:id", apiU.update);
 // đơn hàng
 router.get("/order", apiOder.getOrders);
 router.post("/add/order", apiOder.createOrder);
+router.get("/revenue", apiOder.getRevenue);
 
 // lịch sủ mua hàng
 router.get("/history", apiHistory.getHistory);
