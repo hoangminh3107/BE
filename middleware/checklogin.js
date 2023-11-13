@@ -1,8 +1,21 @@
 exports.yeu_cau_dang_nhap = (req, res, next) => {
   if (req.session.user) {
-    next();
+    console.log("đã đăng nhập");
+    if (req.session.user.role === "user") {
+      return res.render("index", {
+        message: "Đã đăng nhập user",
+        req: req,
+      });
+    }
+    if (req.session.user.role === "admin") {
+      return res.render("index-admin", {
+        message: "Đã đăng nhập admin",
+        req: req,
+      });
+    }
   } else {
-    return res.render("home/home", {
+    console.log("chưa đăng nhập");
+    return res.render("authorize/authorize", {
       message: "Bạn phải đăng nhập để sử dụng chức năng này",
       req: req,
     });
