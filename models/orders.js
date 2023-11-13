@@ -9,20 +9,20 @@ const orderSchema = new mongoose.Schema(
     },
     restaurantName: {
         type: String,
-        require: true,
+        required: true,
     },
     name: {
         type: String,
-        require: true,
+        required: true,
     },
     image: String,
     price:{
         type: Number,
-        require: true,
+        required: true,
     },
     quantity: {
         type: Number,
-        require: true,
+        required: true,
     },
 },
     {

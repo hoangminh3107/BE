@@ -17,5 +17,7 @@ router.get("/editProduct", function (req, res, next) {
 router.get("/home", function (req, res, next) {
   res.render("home", { title: "Express" });
 });
-
+router.get("/revenue", function (req, res, next){
+  res.render("revenue/showrevenue", {title: "Express", req: req});
+});
 module.exports = router;

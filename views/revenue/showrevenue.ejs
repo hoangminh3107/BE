@@ -1,0 +1,49 @@
+<!-- revenue.ejs -->
+
+<%- include('../inc/header-user.ejs') %>
+
+<main>
+  <div style="margin-top: 80px; height: 100vh; margin-left: 320px; flex: 1">
+    <div class="chart-container" style="position: relative; height:80vh; width:80vw;">
+      <canvas id="revenueChart"></canvas>
+    </div>
+  </div>
+</main>
+
+<%- include('../inc/footer.ejs') %>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', async function () {
+    const response = await fetch('/api/revenue');
+    const data = await response.json();
+
+    const totalRevenue = data.totalRevenue;
+
+    // Lấy thẻ canvas
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+
+    // Tạo biểu đồ dạng cột
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Tổng Doanh Thu'],
+        datasets: [{
+          label: 'Doanh Thu',
+          data: [totalRevenue],
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1,
+        }],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  });
+</script>
