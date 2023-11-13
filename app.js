@@ -7,11 +7,9 @@ var bodyParser = require("body-parser");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var apiRouter = require("./routes/api");
-<<<<<<< HEAD
-=======
+
 const session = require("express-session");
 
->>>>>>> 7ff1753bac0201c4c9aaec6b59ca8ee66433b69f
 var app = express();
 
 // view engine setup
