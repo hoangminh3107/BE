@@ -1,5 +1,6 @@
 var express = require("express");
-var router = express.Router();
+const router = express.Router();
+const multer = require("multer");
 var apiU = require("../controllers/user.controllers");
 var apiOder = require("../controllers/orderControllers");
 var apiHistory = require("../controllers/historyOrderController");
@@ -10,6 +11,8 @@ var apiComment = require("../controllers/comment.controller");
 var apiRestaurant = require("../controllers/restautant.controller");
 var apiCategory = require("../controllers/category.controller");
 var apiProduct = require("../controllers/product.controller");
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 //user
 router.get("/users", apiU.listUser);
@@ -53,6 +56,10 @@ router.post("/category/create", apiCategory.createCategory);
 router.get("/product/id/:id", apiProduct.getProduct);
 router.get("/product/suggest", apiProduct.getSuggest);
 router.post("/product/getbyname", apiProduct.getProductByName);
-router.post("/product/addProduct", apiProduct.addProduct);
+router.post(
+  "/product/addProduct",
+  upload.single("image"),
+  apiProduct.addProduct
+);
 
 module.exports = router;

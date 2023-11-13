@@ -2,14 +2,18 @@
 <div style="margin-top: 80px; height: 100vh; margin-left: 320px; flex: 1">
   <div class="input-form">
     <h3 style="text-align: center">Thêm Sản Phẩm</h3>
-    <form method="POST" action="/product/addProduct">
+    <form
+      enctype="multipart/form-data"
+      method="POST"
+      action="api/product/addProduct"
+    >
       <div class="mb-3 mt-4">
         <label class="form-label">Tên Sản Phẩm:</label>
         <input
           class="form-control"
           required
           placeholder="Nhập tên sản phẩm"
-          name="nameProduct"
+          name="name"
         />
       </div>
       <div class="mb-3">
@@ -40,7 +44,7 @@
             type="radio"
             class="form-check-input"
             name="category"
-            value="giày dép"
+            value="tra sua"
             checked
           />Tra Sua
           <label class="form-check-label" for="radio1"></label>
@@ -50,7 +54,7 @@
             type="radio"
             class="form-check-input"
             name="category"
-            value="quần áo"
+            value="com"
           />Com
           <label class="form-check-label" for="radio2"></label>
         </div>
@@ -59,8 +63,8 @@
             type="radio"
             class="form-check-input"
             name="category"
-            value="phụ kiện"
-          />Buns
+            value="bun"
+          />Bun
           <label class="form-check-label"></label>
         </div>
       </div>
@@ -75,8 +79,8 @@
           required
           type="number"
           class="form-control"
-          placeholder="Nhập số lượng"
-          name="selled"
+          placeholder="So luong trong gio hang"
+          name="quantityInStock"
         />
       </div>
       <button type="submit" class="btn btn-primary">Thêm Sản Phẩm</button>
