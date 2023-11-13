@@ -7,6 +7,11 @@ var bodyParser = require("body-parser");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var apiRouter = require("./routes/api");
+<<<<<<< HEAD
+=======
+const session = require("express-session");
+
+>>>>>>> 7ff1753bac0201c4c9aaec6b59ca8ee66433b69f
 var app = express();
 
 // view engine setup
@@ -20,6 +25,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static("public"));
+
+app.use(
+  session({
+    secret: "nhvhi3432j492j35nfdshfuasfjanuhas1249jasjcnydfy2h3nksjdfh9", // chuỗi kí tự đặc biệt để mã hoá
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
