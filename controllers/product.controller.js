@@ -1,5 +1,7 @@
 var productModel = require("../models/product.model");
-const fs = require("fs");
+
+const firebase = require("../firebase/index.js");
+
 exports.getSuggest = async (req, res, next) => {
   try {
     let list = await productModel.productModel.find();
@@ -46,16 +48,27 @@ exports.getProductByName = async (req, res, next) => {
 };
 
 exports.addProduct = async (req, res, next) => {
-  const imageFilePath = req.body.image;
-
-  fs.readFile(imageFilePath, (err, data) => {
-    if (err) {
-      console.error(err);
-    } else {
-      // Dữ liệu ảnh sẽ nằm trong biến 'data' dưới dạng buffer.
-      const base64Image = data.toString("base64");
-      console.log(base64Image);
-      // Bây giờ bạn có thể sử dụng biến 'base64Image' trong ứng dụng của bạn.
-    }
+  const nameFile = req.file.originalname;
+  const blob = firebase.bucket.file(nameFile);
+  const blobWriter = blob.createWriteStream({
+    metadata: {
+      contentType: req.file.mimetype,
+    },
   });
+
+  blobWriter.on("finish", () => {
+    const product = {
+      ...req.body,
+      realPrice: Number.parseInt(req.body.realPrice),
+      discountPrice: Number.parseInt(req.body.discountPrice),
+      quantityInStock: Number.parseInt(req.body.quantityInStock),
+      description: "Mon an ngon",
+      restaurantId: "6530cfe6eeadf379fd6a4c5d", //id nha hang
+      image: `https://firebasestorage.googleapis.com/v0/b/datn-de212.appspot.com/o/${nameFile}?alt=media&token=d890e1e7-459c-4ea8-a233-001825f3c1ae`,
+    };
+    productModel.productModel.create(product).then(() => {
+      res.json("them ok");
+    });
+  });
+  blobWriter.end(req.file.buffer);
 };
