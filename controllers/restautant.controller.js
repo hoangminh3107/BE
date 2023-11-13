@@ -1,5 +1,6 @@
 const { default: mongoose } = require("mongoose");
 var restaurantModel = require("../models/restaurant.model");
+const bcrypt = require("bcrypt");
 
 exports.getRestaurants = async (req, res, next) => {
   try {
@@ -46,4 +47,66 @@ exports.deleteRestaurant = async (req, res, next) => {
   } catch (error) {
     return res.status(500).json({ msg: error.message });
   }
+};
+
+// for website
+exports.webregister = async (req, res, next) => {
+  console.log(req.body);
+  if (req.body.password != req.body.rePassword) {
+    return res.status(500).json({ msg: "Mật khẩu nhập lại không đúng" });
+  } else {
+    try {
+      const salt = await bcrypt.genSalt(10);
+      const restaurant = new restaurantModel.restaurantModel(req.body);
+      restaurant.password = await bcrypt.hash(req.body.password, salt);
+      await restaurant.generateAuthToken();
+      let new_u = await restaurant.save();
+      console.log(new_u);
+      res.redirect("/");
+    } catch (error) {
+      console.log(error);
+      res.redirect("/");
+    }
+  }
+};
+
+exports.weblogin = async (req, res, next) => {
+  try {
+    const restaurant = await restaurantModel.restaurantModel.findOne({
+      account: req.body.username,
+    });
+    console.log(restaurant);
+    if (!restaurant) {
+      console.log("Không tồn tại tài khoản");
+      return res.status(401).json({ msg: "Không tồn tại tài khoản" });
+    } else {
+      const isPasswordMatch = await bcrypt.compare(
+        req.body.password,
+        restaurant.password
+      );
+      if (!isPasswordMatch) {
+        console.log("sai mật khẩu");
+        return res.status(401).json({ msg: "sai mật khẩu" });
+      } else {
+        console.log("Đăng nhập thành công");
+        req.session.user = restaurant;
+        console.log(req.session);
+        res.redirect("/");
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(401).json({ msg: "Sai tài khoản hoặc mật khẩu" });
+  }
+};
+
+exports.weblogout = async (req, res, next) => {
+  console.log("aaaa");
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/");
+    }
+  });
 };
