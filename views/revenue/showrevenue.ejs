@@ -4,8 +4,14 @@
 
 <main>
   <div style="margin-top: 80px; height: 100vh; margin-left: 320px; flex: 1">
-    <div class="chart-container" style="position: relative; height:80vh; width:80vw;">
-      <canvas id="revenueChart"></canvas>
+    <!-- Biểu đồ cột -->
+    <div class="chart-container" style="position: relative; height:50vh; width:80vw;">
+      <canvas id="revenueBarChart"></canvas>
+    </div>
+
+    <!-- Biểu đồ đường -->
+    <div class="chart-container" style="position: relative; height:50vh; width:80vw;">
+      <canvas id="revenueLineChart"></canvas>
     </div>
   </div>
 </main>
@@ -16,26 +22,59 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', async function () {
-    const response = await fetch('/api/revenue');
-    const data = await response.json();
+    // Fetch dữ liệu cho biểu đồ cột
+    const barResponse = await fetch('/api/revenue');
+    const barData = await barResponse.json();
 
-    const labels = data.map(item => item.restaurantName);
-    const revenueData = data.map(item => item.totalRevenue);
+    const barLabels = barData.map(item => item.restaurantName);
+    const barRevenueData = barData.map(item => item.totalRevenue);
 
-    // Lấy thẻ canvas
-    const ctx = document.getElementById('revenueChart').getContext('2d');
+    // Lấy thẻ canvas cho biểu đồ cột
+    const barCtx = document.getElementById('revenueBarChart').getContext('2d');
 
     // Tạo biểu đồ cột
-    new Chart(ctx, {
+    new Chart(barCtx, {
       type: 'bar',
       data: {
-        labels: labels,
+        labels: barLabels,
         datasets: [{
           label: 'Doanh Thu',
-          data: revenueData,
+          data: barRevenueData,
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgba(75, 192, 192, 1)',
           borderWidth: 1,
+        }],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+
+    // Fetch dữ liệu cho biểu đồ đường
+    const lineResponse = await fetch('/api/revenueByTime');
+    const lineData = await lineResponse.json();
+
+    const lineLabels = lineData.map(item => item.orderDate); // Điều chỉnh để phản ánh dữ liệu ngày
+    const lineRevenueData = lineData.map(item => item.totalRevenue);
+
+    // Lấy thẻ canvas cho biểu đồ đường
+    const lineCtx = document.getElementById('revenueLineChart').getContext('2d');
+
+    // Tạo biểu đồ đường
+    new Chart(lineCtx, {
+      type: 'line',
+      data: {
+        labels: lineLabels,
+        datasets: [{
+          label: 'Doanh Thu',
+          data: lineRevenueData,
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 2,
+          fill: false,
         }],
       },
       options: {

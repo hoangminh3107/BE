@@ -30,6 +30,9 @@ const getRestaurantInfo = async (req, res, next) => {
     const user = req.session.user;
     if (user) {
       req.restaurant = user;
+    } else {
+      console.error('Lỗi: req.session.user không tồn tại.');
+      return res.status(401).json({ msg: 'Không có thông tin nhà hàng' });
     }
     next();
   } catch (error) {
@@ -37,7 +40,10 @@ const getRestaurantInfo = async (req, res, next) => {
     return res.status(500).json({ msg: 'Lỗi máy chủ nội bộ' });
   }
 };
+router.get("/revenueByTime", getRestaurantInfo, apiOder.getRevenueByDate);
+ 
 router.get("/revenue", getRestaurantInfo, apiOder.getRevenue);
+
 
 // lịch sủ mua hàng
 router.get("/history", apiHistory.getHistory);
