@@ -75,30 +75,30 @@ exports.weblogin = async (req, res, next) => {
     const restaurant = await restaurantModel.restaurantModel.findOne({
       account: req.body.username,
     });
-    console.log(restaurant);
+
     if (!restaurant) {
-      console.log("Không tồn tại tài khoản");
-      return res.status(401).json({ msg: "Không tồn tại tài khoản" });
-    } else {
-      const isPasswordMatch = await bcrypt.compare(
-        req.body.password,
-        restaurant.password
-      );
-      if (!isPasswordMatch) {
-        console.log("sai mật khẩu");
-        return res.status(401).json({ msg: "sai mật khẩu" });
-      } else {
-        console.log("Đăng nhập thành công");
-        req.session.user = restaurant;
-        console.log(req.session);
-        res.redirect("/");
-      }
+      return res.status(401).json({ msg: 'Không tồn tại tài khoản' });
     }
+
+    const isPasswordMatch = await bcrypt.compare(
+      req.body.password,
+      restaurant.password
+    );
+
+    if (!isPasswordMatch) {
+      return res.status(401).json({ msg: 'Sai mật khẩu' });
+    }
+
+    // Thiết lập thông tin nhà hàng vào session
+    req.session.user = restaurant;
+
+    res.redirect('/');
   } catch (error) {
     console.log(error);
-    return res.status(401).json({ msg: "Sai tài khoản hoặc mật khẩu" });
+    return res.status(401).json({ msg: 'Sai tài khoản hoặc mật khẩu' });
   }
 };
+
 
 exports.weblogout = async (req, res, next) => {
   console.log("aaaa");

@@ -19,19 +19,20 @@
     const response = await fetch('/api/revenue');
     const data = await response.json();
 
-    const totalRevenue = data.totalRevenue;
+    const labels = data.map(item => item.restaurantName);
+    const revenueData = data.map(item => item.totalRevenue);
 
     // Lấy thẻ canvas
     const ctx = document.getElementById('revenueChart').getContext('2d');
 
-    // Tạo biểu đồ dạng cột
+    // Tạo biểu đồ cột
     new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Tổng Doanh Thu'],
+        labels: labels,
         datasets: [{
           label: 'Doanh Thu',
-          data: [totalRevenue],
+          data: revenueData,
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgba(75, 192, 192, 1)',
           borderWidth: 1,
