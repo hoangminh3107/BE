@@ -63,7 +63,7 @@ exports.addProduct = async (req, res, next) => {
       discountPrice: Number.parseInt(req.body.discountPrice),
       quantityInStock: Number.parseInt(req.body.quantityInStock),
       description: "Mon an ngon",
-      restaurantId: "6530cfe6eeadf379fd6a4c5d", //id nha hang
+      restaurantId: "655246e58721d36990eb4192", //id nha hang
       image: `https://firebasestorage.googleapis.com/v0/b/datn-de212.appspot.com/o/${nameFile}?alt=media&token=d890e1e7-459c-4ea8-a233-001825f3c1ae`,
     };
     productModel.productModel.create(product).then(() => {
