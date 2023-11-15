@@ -24,6 +24,10 @@ const orderSchema = new mongoose.Schema(
         type: Number,
         required: true,
     },
+    orderDate: {
+        type: Date,
+        default: Date.now,
+    },
 },
     {
         collection: 'Order'
