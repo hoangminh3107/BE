@@ -66,6 +66,7 @@ exports.getProductByName = async (req, res, next) => {
 };
 
 exports.addProduct = async (req, res, next) => {
+  const id = req.session.user?._id;
   const nameFile = req.file.originalname;
   const blob = firebase.bucket.file(nameFile);
   const blobWriter = blob.createWriteStream({
@@ -81,7 +82,7 @@ exports.addProduct = async (req, res, next) => {
       discountPrice: Number.parseInt(req.body.discountPrice),
       quantityInStock: Number.parseInt(req.body.quantityInStock),
       description: "Mon an ngon",
-      restaurantId: "655246e58721d36990eb4192", //id nha hang
+      restaurantId: id,
       image: `https://firebasestorage.googleapis.com/v0/b/datn-de212.appspot.com/o/${nameFile}?alt=media&token=d890e1e7-459c-4ea8-a233-001825f3c1ae`,
     };
     productModel.productModel.create(product).then(() => {
