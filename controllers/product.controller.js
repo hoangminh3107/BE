@@ -16,7 +16,25 @@ exports.getSuggest = async (req, res, next) => {
     return res.status(500).json({ msg: error.message });
   }
 };
+exports.getProductInRestaurant = async (req, res, next) => {
+  const restaurantId = req.params.id;
 
+  try {
+    let list = await productModel.productModel.find({
+      restaurantId,
+    });
+    console.log(list);
+    if (list) {
+      return res
+        .status(200)
+        .json({ data: list, msg: "Lay du lieu san pham thanh cong" });
+    } else {
+      return res.status(400).json({ msg: "Lay du lieu san pham thanh cong" });
+    }
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+};
 exports.getProduct = async (req, res, next) => {
   try {
     const product = await productModel.productModel.findById(req.params.id);

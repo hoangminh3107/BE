@@ -16,6 +16,24 @@ exports.getRestaurants = async (req, res, next) => {
     return res.status(500).json({ msg: error.message });
   }
 };
+exports.getInfoRestaurantById = async (req, res, next) => {
+  const restaurantId = req.params.id;
+
+  try {
+    let info = await restaurantModel.restaurantModel.find({
+      _id: restaurantId,
+    });
+    if (info) {
+      return res
+        .status(200)
+        .json({ data: info, msg: "Lấy  dữ liệu restaurant thành công" });
+    } else {
+      return res.status(400).json({ msg: "Không có dữ liệu restaurant" });
+    }
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+};
 exports.createRestaurant = async (req, res, next) => {
   try {
     let list = await restaurantModel.restaurantModel.create(req.body);
@@ -31,6 +49,7 @@ exports.createRestaurant = async (req, res, next) => {
     return res.status(500).json({ msg: error.message });
   }
 };
+
 exports.deleteRestaurant = async (req, res, next) => {
   let idRestaurant = req.params.id.replace(":", "");
   idRestaurant = new mongoose.Types.ObjectId(idRestaurant);
@@ -77,7 +96,7 @@ exports.weblogin = async (req, res, next) => {
     });
 
     if (!restaurant) {
-      return res.status(401).json({ msg: 'Không tồn tại tài khoản' });
+      return res.status(401).json({ msg: "Không tồn tại tài khoản" });
     }
 
     const isPasswordMatch = await bcrypt.compare(
@@ -86,19 +105,18 @@ exports.weblogin = async (req, res, next) => {
     );
 
     if (!isPasswordMatch) {
-      return res.status(401).json({ msg: 'Sai mật khẩu' });
+      return res.status(401).json({ msg: "Sai mật khẩu" });
     }
 
     // Thiết lập thông tin nhà hàng vào session
     req.session.user = restaurant;
 
-    res.redirect('/');
+    res.redirect("/");
   } catch (error) {
     console.log(error);
-    return res.status(401).json({ msg: 'Sai tài khoản hoặc mật khẩu' });
+    return res.status(401).json({ msg: "Sai tài khoản hoặc mật khẩu" });
   }
 };
-
 
 exports.weblogout = async (req, res, next) => {
   console.log("aaaa");
