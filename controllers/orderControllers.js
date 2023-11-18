@@ -2,7 +2,6 @@ const { Order } = require('../models/orders');
 const { History } = require('../models/history');
 const { productModel } = require('../models/product.model');
 const mongoose = require('mongoose');
-const { log } = require('firebase-functions/logger');
 const { use } = require('../routes/api');
 
 exports.getOrders = async (req, res) => {
@@ -13,7 +12,22 @@ exports.getOrders = async (req, res) => {
     return res.status(500).json({ msg: error.message });
   }
 };
-//
+//lấy theo id 
+exports.getOrdersByUser = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const orders = await Order.find({ userId: userId });
+
+    if (!orders || orders.length === 0) {
+      return res.status(404).json({ msg: 'Không tìm thấy đơn hàng cho người dùng này.' });
+    }
+
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error('Lỗi khi lấy đơn hàng:', error);
+    res.status(500).json({ msg: 'Lỗi máy chủ nội bộ.' });
+  }
+};
 
 exports.createOrder = async (req, res) => {
 
@@ -31,6 +45,7 @@ exports.createOrder = async (req, res) => {
     console.log(product);
     const order = new Order({
       userId: req.body.userId,
+      restaurantId: product.restaurantId._id, 
       restaurantName: product.restaurantId.name,
       name: product.name,
       image: product.image,
@@ -60,12 +75,13 @@ exports.createOrder = async (req, res) => {
 };
 exports.getRevenue = async (req, res) => {
   try {
-    console.log('ten tai khoan1', use);
-    const user = req.session.user;
-    if (!user) {
+    
+    const loggedInUser = req.session.user;
+    if (!loggedInUser) {
       return res.status(401).json({ msg: 'Nhà hàng chưa đăng nhập' });
     }
-    const restaurantId = user._id;
+    console.log("tai khoan 1", loggedInUser);
+    const restaurantId = loggedInUser._id;
 
     // Bắt đầu pipeline
     const resultAfterLookup = await Order.aggregate([
@@ -116,8 +132,7 @@ exports.getRevenue = async (req, res) => {
       },
     
     ]);
-
-
+    console.log('data', resultAfterLookup);
     if (resultAfterLookup.length === 0) {
       return res.status(404).json({ msg: 'Không có đơn hàng' });
     }
@@ -129,14 +144,11 @@ exports.getRevenue = async (req, res) => {
 };
 exports.getRevenueByDate = async (req, res) => {
   try {
-    console.log('ten tai khoan', use);
     const user = req.session.user;
     if (!user) {
       return res.status(401).json({ msg: 'Nhà hàng chưa đăng nhập' });
     }
     const restaurantId = user._id;
-
-    console.log('id: ', restaurantId);
     const resultAfterLookup = await Order.aggregate([
       {
         $lookup: {
@@ -192,9 +204,6 @@ exports.getRevenueByDate = async (req, res) => {
         },
       },
     ]);
-    
-    console.log('Dữ liệu sau $lookup:', resultAfterLookup);
-
     res.status(200).json(resultAfterLookup);
   } catch (error) {
     console.error('Lỗi khi lấy doanh thu:', error);

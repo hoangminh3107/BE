@@ -43,7 +43,7 @@ const getRestaurantInfo = async (req, res, next) => {
 router.get("/revenueByTime", getRestaurantInfo, apiOder.getRevenueByDate);
  
 router.get("/revenue", getRestaurantInfo, apiOder.getRevenue);
-
+router.get("/order/:userId", apiOder.getOrdersByUser);
 
 // lịch sủ mua hàng
 router.get("/history", apiHistory.getHistory);
