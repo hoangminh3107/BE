@@ -16,7 +16,25 @@ exports.getSuggest = async (req, res, next) => {
     return res.status(500).json({ msg: error.message });
   }
 };
+exports.getProductInRestaurant = async (req, res, next) => {
+  const restaurantId = req.params.id;
 
+  try {
+    let list = await productModel.productModel.find({
+      restaurantId,
+    });
+    console.log(list);
+    if (list) {
+      return res
+        .status(200)
+        .json({ data: list, msg: "Lay du lieu san pham thanh cong" });
+    } else {
+      return res.status(400).json({ msg: "Lay du lieu san pham thanh cong" });
+    }
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+};
 exports.getProduct = async (req, res, next) => {
   try {
     const product = await productModel.productModel.findById(req.params.id);
@@ -48,6 +66,7 @@ exports.getProductByName = async (req, res, next) => {
 };
 
 exports.addProduct = async (req, res, next) => {
+  const id = req.session.user?._id;
   const nameFile = req.file.originalname;
   const blob = firebase.bucket.file(nameFile);
   const blobWriter = blob.createWriteStream({
@@ -63,7 +82,7 @@ exports.addProduct = async (req, res, next) => {
       discountPrice: Number.parseInt(req.body.discountPrice),
       quantityInStock: Number.parseInt(req.body.quantityInStock),
       description: "Mon an ngon",
-      restaurantId: "655246e58721d36990eb4192", //id nha hang
+      restaurantId: id,
       image: `https://firebasestorage.googleapis.com/v0/b/datn-de212.appspot.com/o/${nameFile}?alt=media&token=d890e1e7-459c-4ea8-a233-001825f3c1ae`,
     };
     productModel.productModel.create(product).then(() => {
