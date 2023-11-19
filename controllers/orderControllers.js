@@ -55,18 +55,18 @@ exports.createOrder = async (req, res) => {
 
     const newOrder = await order.save();
 
-    const orderId = newOrder._id;
+    // const orderId = newOrder._id;
 
-    const history = new History({
-      userId: req.body.userId,
-      orderId,
-      restaurantName: product.restaurantId.name,
-      price: product.realPrice,
-      time: new Date(),
-    });
+    // const history = new History({
+    //   userId: req.body.userId,
+    //   orderId,
+    //   restaurantName: product.restaurantId.name,
+    //   price: product.realPrice,
+    //   time: new Date(),
+    // });
 
-    const saveHistory = await history.save();
-    res.json(saveHistory);
+    // const saveHistory = await history.save();
+    // res.json(saveHistory);
   } catch (error) {
     console.error('Lỗi khi tạo đơn hàng:', error);
     res.status(500).json({ msg: 'Lỗi máy chủ nội bộ' });

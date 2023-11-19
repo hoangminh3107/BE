@@ -47,6 +47,7 @@ router.get("/revenue", getRestaurantInfo, apiOder.getRevenue);
 router.get("/history", apiHistory.getHistory);
 router.delete("/history/delete", apiHistory.deleteHistory);
 router.get("/ordersByUser/:userId", apiHistory.getUserHistory);
+router.get("/update-order-status/:orderId", apiHistory.updateOrderStatusByRestaurant);
 //slider
 router.get("/slider/getAll", apiSlider.getSliders);
 //comment
