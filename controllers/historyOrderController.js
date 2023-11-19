@@ -72,25 +72,34 @@ exports.updateOrderStatusByRestaurant = async (req, res) => {
     const newStatus = req.body.status;
 
     try {
-        if (![0, 1].includes(newStatus)) {
+        // Kiểm tra xem newStatus có giá trị hợp lệ hay không (0, 1, 2)
+        if (![0, 1, 2].includes(newStatus)) {
             return res.status(400).json({ msg: 'Trạng thái không hợp lệ.' });
         }
 
+        // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu
         const updatedOrder = await historyModel.History.findByIdAndUpdate(
             orderId,
             { $set: { status: newStatus } },
             { new: true }
         );
 
+        // Kiểm tra nếu không tìm thấy đơn hàng
         if (!updatedOrder) {
             return res.status(404).json({ msg: 'Không tìm thấy đơn hàng' });
         }
-        if (newStatus === 1) {
-            return res.json({ msg: 'Đơn hàng đã hoàn thành.' });
-        } else {
-            return res.json({ msg: 'Chờ xác nhận.' });
+
+        // Phản hồi dựa trên trạng thái mới
+        switch (newStatus) {
+            case 1:
+                return res.json({ msg: 'Đơn hàng đang chuẩn bị.' });
+            case 2:
+                return res.json({ msg: 'Đơn hàng đã giao.' });
+            default:
+                return res.json({ msg: 'Chờ xác nhận.' });
         }
     } catch (error) {
+        // Xử lý bất kỳ lỗi nào xuất hiện trong quá trình xử lý
         return res.status(500).json({ msg: error.message });
     }
 };
