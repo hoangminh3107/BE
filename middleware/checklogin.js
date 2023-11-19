@@ -1,13 +1,14 @@
 exports.yeu_cau_dang_nhap = (req, res, next) => {
   if (req.session.user) {
-    console.log("đã đăng nhập");
     if (req.session.user.role === "user") {
+    console.log("đã đăng nhập user");
       return res.render("index", {
         message: "Đã đăng nhập user",
         req: req,
       });
     }
     if (req.session.user.role === "admin") {
+    console.log("đã đăng nhập admin");
       return res.render("index-admin", {
         message: "Đã đăng nhập admin",
         req: req,

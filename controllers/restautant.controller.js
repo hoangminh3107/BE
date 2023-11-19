@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose");
 var restaurantModel = require("../models/restaurant.model");
 const bcrypt = require("bcrypt");
+const { render } = require("ejs");
 
 exports.getRestaurants = async (req, res, next) => {
   try {
@@ -109,4 +110,13 @@ exports.weblogout = async (req, res, next) => {
       res.redirect("/");
     }
   });
+};
+exports.getListRestaurant = async (req, res, next) => {
+  try {
+    let list = await restaurantModel.restaurantModel.find();
+    console.log(list);
+    res.render('restaurant/res', {list: list, req: req});
+  } catch (error) {
+    res.redirect("/", {req: req});
+  }
 };
