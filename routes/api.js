@@ -44,9 +44,11 @@ router.get("/order/:userId", apiOder.getOrdersByUser);
 router.get("/revenue", getRestaurantInfo, apiOder.getRevenue);
 
 // lịch sủ mua hàng
+router.post("/history/create", apiHistory.createOrderSuccess);
 router.get("/history", apiHistory.getHistory);
-router.delete("/history/delete", apiHistory.deleteHistory);
 router.get("/ordersByUser/:userId", apiHistory.getUserHistory);
+router.delete("/history/delete", apiHistory.deleteHistory);
+router.delete("/history/deleteAll", apiHistory.deleteHistoryAll);
 router.get("/update-order-status/:orderId", apiHistory.updateOrderStatusByRestaurant);
 //slider
 router.get("/slider/getAll", apiSlider.getSliders);
