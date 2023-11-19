@@ -3,32 +3,32 @@ var db = require("./db");
 
 const orderSchema = new mongoose.Schema(
     {
-    userId: { 
-        type: String, 
-        required: true,
+        userId: {
+            type: mongoose.Types.ObjectId,
+            required: true,
+        },
+        restaurantName: {
+            type: String,
+            required: true,
+        },
+        name: {
+            type: String,
+            required: true,
+        },
+        image: String,
+        price: {
+            type: Number,
+            required: true,
+        },
+        quantity: {
+            type: Number,
+            required: true,
+        },
+        orderDate: {
+            type: Date,
+            default: Date.now,
+        },
     },
-    restaurantName: {
-        type: String,
-        required: true,
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    image: String,
-    price:{
-        type: Number,
-        required: true,
-    },
-    quantity: {
-        type: Number,
-        required: true,
-    },
-    orderDate: {
-        type: Date,
-        default: Date.now,
-    },
-},
     {
         collection: 'Order'
     }

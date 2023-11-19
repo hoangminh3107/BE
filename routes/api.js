@@ -38,13 +38,16 @@ const getRestaurantInfo = async (req, res, next) => {
   }
 };
 router.get("/revenueByTime", getRestaurantInfo, apiOder.getRevenueByDate);
-
+ 
+router.get("/revenue", getRestaurantInfo, apiOder.getRevenue);
+router.get("/order/:userId", apiOder.getOrdersByUser);
 router.get("/revenue", getRestaurantInfo, apiOder.getRevenue);
 
 // lịch sủ mua hàng
 router.get("/history", apiHistory.getHistory);
 router.delete("/history/delete", apiHistory.deleteHistory);
 router.get("/ordersByUser/:userId", apiHistory.getUserHistory);
+router.get("/update-order-status/:orderId", apiHistory.updateOrderStatusByRestaurant);
 //slider
 router.get("/slider/getAll", apiSlider.getSliders);
 //comment
