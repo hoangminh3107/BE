@@ -211,8 +211,10 @@ exports.getRevenueByDate = async (req, res) => {
 
 //web 
 exports.getOrdersWeb = async (req, res) => {
+  console.log('ss');
     try {
       const orders = await Order.find().populate('userId', 'username');
+      console.log(orders);
       res.render("order/listorder", { list: orders, req: req });
     } catch (error) {
       console.log(error);
