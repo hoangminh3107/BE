@@ -91,3 +91,15 @@ exports.addProduct = async (req, res, next) => {
   });
   blobWriter.end(req.file.buffer);
 };
+
+// web
+
+exports.getListProduct = async (req, res, next) => {
+  try {
+    const products = await productModel.productModel.find();
+    console.log(products);
+    res.render("product/listProduct", { list: products, req: req });
+  } catch (error) {
+    return res.status(204).json({ msg: error.message });
+  }
+}

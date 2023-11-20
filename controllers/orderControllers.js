@@ -2,7 +2,6 @@ const { Order } = require('../models/orders');
 const { History } = require('../models/history');
 const { productModel } = require('../models/product.model');
 const mongoose = require('mongoose');
-const { use } = require('../routes/api');
 
 exports.getOrders = async (req, res) => {
   try {
@@ -208,4 +207,15 @@ exports.getRevenueByDate = async (req, res) => {
     console.error('Lỗi khi lấy doanh thu:', error);
     return res.status(500).json({ msg: error.message });
   }
+};
+
+//web 
+exports.getOrdersWeb = async (req, res) => {
+    try {
+      const orders = await Order.find().populate('userId', 'username');
+      res.render("order/listorder", { list: orders, req: req });
+    } catch (error) {
+      console.log(error);
+      res.render("/",{req:req});
+    }
 };

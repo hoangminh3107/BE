@@ -1,7 +1,8 @@
 var express = require("express");
 const session = require("express-session");
 const { yeu_cau_dang_nhap } = require("../middleware/checklogin");
-var restaurant = require("../controllers/restautant.controller");
+var product = require("../controllers/product.controller");
+var order = require("../controllers/orderControllers");
 var router = express.Router();
 
 /* GET home page. */
@@ -21,5 +22,8 @@ router.get("/home", function (req, res, next) {
 router.get("/revenue", function (req, res, next){
   res.render("revenue/showrevenue", {title: "Express", req: req});
 });
-router.get("/listrestaurant", restaurant.getListRestaurant);
+
+router.get("/listproduct", product.getListProduct);
+router.get("/orderstatistics", order.getOrdersWeb);
+
 module.exports = router;

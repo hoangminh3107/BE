@@ -1,0 +1,41 @@
+<%- include('../inc/header-admin.ejs') %>
+<!-- Viết code màn hình tại đây -->
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Danh sách đơn hàng</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Danh sách đơn hàng</li>  
+      </ol>
+      <table class="table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Restaurant Name</th>
+                <th>Food Name</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Order Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% list.forEach(list => { %>
+                <tr>
+                    <td><%= list.userId.username %></td>
+                    <td><%= list.restaurantName %></td>
+                    <td><%= list.name %></td>
+                    <td><img src="<%= list.image %>" alt="<%= list.name %>" style="max-width: 100px;"></td>
+                    <td><%= list.price %></td>
+                    <td><%= list.quantity %></td>
+                    <td><%= list.orderDate %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+</main>
+<%- include('../inc/footer.ejs') %>
