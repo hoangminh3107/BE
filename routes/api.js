@@ -21,6 +21,9 @@ router.post("/users/update/:id", apiU.update);
 // đơn hàng
 router.get("/order", apiOder.getOrders);
 router.post("/add/order", apiOder.createOrder);
+router.delete("/deleteorder/:id", apiOder.deleteOrder);
+router.put("/updateorder/:id", apiOder.updateOrder);
+router.delete("/deletebyUid/:id", apiOder.deletebyUid);
 
 const getRestaurantInfo = async (req, res, next) => {
   try {
