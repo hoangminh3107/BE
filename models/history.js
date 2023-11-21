@@ -57,10 +57,10 @@ const historySchame = new mongoose.Schema({
 
 },
 {
-    collection: 'History'
+    collection: 'Bill'
 }
 );
-let History = db.mongoose.model('History', historySchame);
+let History = db.mongoose.model('Bill', historySchame);
 module.exports = {
     History
 }

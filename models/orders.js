@@ -17,6 +17,10 @@ const orderSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
+        restaurant: {
+            type: mongoose.Types.ObjectId,
+            required: true,
+        },
         quantity: {
             type: Number,
             required: true,
@@ -27,11 +31,11 @@ const orderSchema = new mongoose.Schema(
         },
     },
     {
-        collection: 'Order'
+        collection: 'Cart'
     }
 
 );
-let Order = db.mongoose.model('Order', orderSchema);
+let Order = db.mongoose.model('Cart', orderSchema);
 module.exports = {
     Order
 }
