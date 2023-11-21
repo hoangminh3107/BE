@@ -3,10 +3,7 @@ var db = require("./db");
 
 const orderSchema = new mongoose.Schema(
     {
-        userId: {
-            type: mongoose.Types.ObjectId,
-            required: true,
-        },
+        userId: { type: db.mongoose.Schema.Types.ObjectId, ref: 'userModel', require:true },
         restaurantName: {
             type: String,
             required: true,
