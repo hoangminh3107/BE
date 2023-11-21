@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose");
 var restaurantModel = require("../models/restaurant.model");
 const bcrypt = require("bcrypt");
+const { render } = require("ejs");
 
 exports.getRestaurants = async (req, res, next) => {
   try {
@@ -127,4 +128,28 @@ exports.weblogout = async (req, res, next) => {
       res.redirect("/");
     }
   });
+};
+exports.getListRestaurant = async (req, res, next) => {
+  try {
+    let list = await restaurantModel.restaurantModel.find();
+    console.log(list);
+    res.render("restaurant/res", { list: list, req: req });
+  } catch (error) {
+    res.redirect("/", { req: req });
+  }
+};
+exports.searchRestaurant = async (req, res, next) => {
+  console.log(req.query.name);
+  try {
+    let regex = new RegExp(req.query.name, "i");
+    let msg = "";
+    let list = await restaurantModel.restaurantModel.find({ name: regex });
+    if (list.length == 0) {
+      msg = "Không có nhà hàng: " + req.query.name;
+    }
+    res.render("restaurant/res", { list: list, msg: msg, req: req });
+  } catch (error) {
+    console.log(error);
+    res.redirect("/"); // Nếu có lỗi, chuyển hướng về trang chủ
+  };
 };
