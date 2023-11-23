@@ -10,6 +10,10 @@ const historySchame = new mongoose.Schema({
         type: String,
         require: true,
     },
+    restaurantId: {
+        type: String,
+        require: true,
+    },
     restaurantName: {
         type: String,
         require: true,
@@ -43,7 +47,7 @@ const historySchame = new mongoose.Schema({
     status: {
         type: Number,
         required: true,
-        enum: [0, 1, 2],  
+        enum: [0, 1, 2, 3],  
         default: 0     
     },
     notes:{

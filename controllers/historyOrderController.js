@@ -1,14 +1,13 @@
 var historyModel = require('../models/history');
 const {productModel}=require('../models/product.model');
+const mongoose = require('mongoose');
 
 
 exports.createOrderSuccess = async (req, res, next) => {
-    console.log(req.body);
+    console.log("data",req.body);
     try {
       const OrderSuccess = new historyModel.History(req.body);
-  
       let new_OrderSuccess = await OrderSuccess.save();
-  
       return res.status(200).json({ OrderSuccess: new_OrderSuccess });
     } catch (error) {
       console.log(error);
@@ -25,6 +24,7 @@ exports.getHistory = async (req, res) => {
 };
 
 exports.getUserHistory = async (req, res) => {
+    console.log('fdscbg', req.body);
     try {
         const userId = req.params.userId;
         if (!userId || userId.length !== 24) {
@@ -72,34 +72,114 @@ exports.updateOrderStatusByRestaurant = async (req, res) => {
     const newStatus = req.body.status;
 
     try {
-        // Kiểm tra xem newStatus có giá trị hợp lệ hay không (0, 1, 2)
-        if (![0, 1, 2].includes(newStatus)) {
+        if (![0, 1, 2, 3].includes(newStatus)) {
             return res.status(400).json({ msg: 'Trạng thái không hợp lệ.' });
         }
-
-        // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu
         const updatedOrder = await historyModel.History.findByIdAndUpdate(
             orderId,
             { $set: { status: newStatus } },
             { new: true }
         );
-
-        // Kiểm tra nếu không tìm thấy đơn hàng
         if (!updatedOrder) {
             return res.status(404).json({ msg: 'Không tìm thấy đơn hàng' });
         }
-
-        // Phản hồi dựa trên trạng thái mới
         switch (newStatus) {
             case 1:
                 return res.json({ msg: 'Đơn hàng đang chuẩn bị.' });
             case 2:
                 return res.json({ msg: 'Đơn hàng đã giao.' });
+                case 3: 
+                return res.json({msg: "Đơn hàng đã được hủy."})
             default:
                 return res.json({ msg: 'Chờ xác nhận.' });
         }
     } catch (error) {
-        // Xử lý bất kỳ lỗi nào xuất hiện trong quá trình xử lý
         return res.status(500).json({ msg: error.message });
     }
 };
+
+// hủy đơn hàng cho user khi còn ở trạng thái đang chờ duyệt 
+exports.cancelOrder = async (req, res) => {
+    try {
+        const orderId = req.body.orderId;
+        const userIdFromRequest = req.body.userId;
+        const order = await historyModel.History.findById(orderId);
+        if (!order) {
+            return res.status(404).json({ msg: 'Không tìm thấy đơn hàng' });
+        }
+        if (order.userId !== userIdFromRequest) {
+            return res.status(403).json({ msg: 'Bạn không có quyền hủy đơn hàng này.' });
+        }
+        if (order.status === 0) {
+            const updatedOrder = await historyModel.History.findByIdAndUpdate(
+                orderId,
+                { $set: { status: 3 } }, 
+                { new: true }
+            );
+            return res.json({ msg: 'Đơn hàng đã được hủy.' });
+        } else {
+            return res.status(400).json({ msg: 'Không thể hủy đơn hàng ở trạng thái khác 0.' });
+        }
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+};
+exports.getRevenue = async (req, res) => {
+    try {
+      const user = req.session.user;
+      console.log('use', user);
+      if (!user) {
+        return res.status(401).json({ msg: 'Nhà hàng chưa đăng nhập' });
+      }
+      const restaurantId = user._id;
+  
+      const resultAfterLookup = await historyModel.History.aggregate([
+        {
+          $match: {
+            restaurantId: new mongoose.Types.ObjectId(restaurantId),
+            status: 2, // Chỉ lấy đơn hàng ở trạng thái đã giao (2)
+          },
+        },
+        {
+          $unwind: '$products', // Giả sử 'products' là mảng các sản phẩm trong đơn hàng
+        },
+        {
+          $lookup: {
+            from: 'products',
+            localField: 'products.productId',
+            foreignField: '_id',
+            as: 'productInfo',
+          },
+        },
+        {
+          $unwind: '$productInfo',
+        },
+        {
+          $group: {
+            _id: '$restaurantId',
+            restaurantName: { $first: '$restaurantName' },
+            totalRevenue: {
+              $sum: { $multiply: ['$products.price', '$products.quantity'] },
+            },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            restaurantId: '$_id',
+            restaurantName: 1,
+            totalRevenue: 1,
+          },
+        },
+      ]);
+      console.log('data', resultAfterLookup);
+  
+      if (resultAfterLookup.length === 0) {
+        return res.status(404).json({ msg: 'Không có đơn hàng' });
+      }
+  
+      res.status(200).json(resultAfterLookup);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  };
