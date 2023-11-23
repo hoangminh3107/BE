@@ -1,3 +1,6 @@
+
+const { Order } = require('../models/orders');
+const { productModel } = require('../models/product.model');
 const { Order } = require("../models/orders");
 const { productModel } = require("../models/product.model");
 const mongoose = require("mongoose");
@@ -162,7 +165,6 @@ exports.updateOrder = async (req, res) => {
     return res.status(500).json({ msg: "Đã xảy ra lỗi" });
   }
 };
-
 exports.getRevenue = async (req, res) => {
   try {
     const loggedInUser = req.session.user;

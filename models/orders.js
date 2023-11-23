@@ -18,7 +18,7 @@ const orderSchema = new mongoose.Schema(
             required: true,
         },
         restaurant: {
-            type: mongoose.Types.ObjectId,
+            type: String,
             required: true,
         },
         quantity: {
