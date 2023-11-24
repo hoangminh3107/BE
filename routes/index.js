@@ -11,16 +11,20 @@ router.get("/addProduct", function (req, res, next) {
   res.render("product/addProduct", { title: "Express", req: req });
 });
 router.get("/showProduct", function (req, res, next) {
-  res.render("product/showProduct", { title: "Express" });
+  const data = product.dataProductRestaurant(req, res);
+  res.render("product/showProduct", {
+    list: data,
+    req: req,
+  });
 });
 router.get("/editProduct", function (req, res, next) {
-  res.render("product/editProduct", { title: "Express" });
+  res.render("product/editProduct", { title: "Express", req: req });
 });
 router.get("/home", function (req, res, next) {
   res.render("home", { title: "Express" });
 });
-router.get("/revenue", function (req, res, next){
-  res.render("revenue/showrevenue", {title: "Express", req: req});
+router.get("/revenue", function (req, res, next) {
+  res.render("revenue/showrevenue", { title: "Express", req: req });
 });
 
 router.get("/listproduct", product.getListProduct);

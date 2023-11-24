@@ -1,4 +1,4 @@
-<%- include('../inc/header.ejs') %>
+<%- include('../inc/header-user.ejs') %>
 <div style="margin-top: 80px; height: 100vh; margin-left: 320px; flex: 1">
   <table class="table">
     <thead>
@@ -11,7 +11,21 @@
       </tr>
     </thead>
     <tbody>
+      <% for (let i = 0; i < list.length; i++) { %>
       <tr>
+        <th scope="row"><%= i + 1 %></th>
+        <td><%= list[i].name %></td>
+        <td>
+          <img
+            src="<%= list[i].image %>"
+            alt="<%= list[i].name %>"
+            style="max-width: 100px"
+          />
+        </td>
+        <td><%= list[i].discountPrice %></td>
+      </tr>
+      <% } %>
+      <!-- <tr>
         <th scope="row">1</th>
         <td>Mark</td>
         <td>
@@ -76,9 +90,8 @@
             <button style="margin-left: 10px">Sửa</button>
           </div>
         </td>
-      </tr>
+      </tr> -->
     </tbody>
   </table>
 </div>
-
 <%- include('../inc/footer.ejs') %>
