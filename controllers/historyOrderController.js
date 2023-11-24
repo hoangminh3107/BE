@@ -1,5 +1,5 @@
 var historyModel = require('../models/history');
-const {productModel}=require('../models/product.model');
+const ProductModel =require('../models/product.model');
 const mongoose = require('mongoose');
 
 
@@ -124,62 +124,51 @@ exports.cancelOrder = async (req, res) => {
         res.status(500).json({ msg: error.message });
     }
 };
+
 exports.getRevenue = async (req, res) => {
-    try {
-      const user = req.session.user;
-      console.log('use', user);
-      if (!user) {
-        return res.status(401).json({ msg: 'Nhà hàng chưa đăng nhập' });
-      }
-      const restaurantId = user._id;
-  
-      const resultAfterLookup = await historyModel.History.aggregate([
-        {
-          $match: {
-            restaurantId: new mongoose.Types.ObjectId(restaurantId),
-            status: 2, // Chỉ lấy đơn hàng ở trạng thái đã giao (2)
-          },
-        },
-        {
-          $unwind: '$products', // Giả sử 'products' là mảng các sản phẩm trong đơn hàng
-        },
-        {
-          $lookup: {
-            from: 'products',
-            localField: 'products.productId',
-            foreignField: '_id',
-            as: 'productInfo',
-          },
-        },
-        {
-          $unwind: '$productInfo',
-        },
-        {
-          $group: {
-            _id: '$restaurantId',
-            restaurantName: { $first: '$restaurantName' },
-            totalRevenue: {
-              $sum: { $multiply: ['$products.price', '$products.quantity'] },
-            },
-          },
-        },
-        {
-          $project: {
-            _id: 0,
-            restaurantId: '$_id',
-            restaurantName: 1,
-            totalRevenue: 1,
-          },
-        },
-      ]);
-      console.log('data', resultAfterLookup);
-  
-      if (resultAfterLookup.length === 0) {
-        return res.status(404).json({ msg: 'Không có đơn hàng' });
-      }
-  
-      res.status(200).json(resultAfterLookup);
-    } catch (error) {
-      return res.status(500).json({ msg: error.message });
+  try {
+    const user = req.session.user;
+    console.log('user', user);
+    if (!user) {
+      return res.status(401).json({ msg: 'Nhà hàng chưa đăng nhập' });
     }
-  };
+    const restaurantId = user._id;
+    console.log('restaurantId', restaurantId);
+
+    // Bắt đầu pipeline
+    const orders = await historyModel.History.find({
+      'products.restaurantId': restaurantId,
+      status: 2,
+    });
+
+    console.log('Orders:', orders);
+
+    if (orders.length === 0) {
+      return res.status(404).json({ msg: 'Không có đơn hàng' });
+    }
+
+    let totalRevenue = 0;
+
+    for (const order of orders) {
+      for (const product of order.products) {
+        const productInfo = await ProductModel.productModel.findById(product.productId);
+
+        if (productInfo) {
+          // Tính toán doanh thu dựa trên thông tin chi tiết của sản phẩm
+          const revenueFromProduct = product.quantity * productInfo.realPrice;
+          totalRevenue += revenueFromProduct;
+        }
+      }
+    }
+
+    console.log('Total Revenue:', totalRevenue);
+
+    // Trả kết quả cho client hoặc thực hiện các bước tiếp theo của pipeline
+    res.status(200).json({ totalRevenue });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ msg: 'Đã xảy ra lỗi' });
+  }
+};
+
+

@@ -19,9 +19,10 @@ const historySchame = new mongoose.Schema({
         require: true,
     },
     products: [{
+        // id nhà hàng
         productId: {
             type: mongoose.Schema.Types.ObjectId, // Hoặc String, nếu bạn lưu trữ ID như một chuỗi
-            required: true
+            required: true,
         },
         name: {
             type: String,
