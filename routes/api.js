@@ -24,27 +24,8 @@ router.post("/add/order", apiOder.createOrder);
 router.delete("/deleteorder/:id", apiOder.deleteOrder);
 router.put("/updateorder/:id", apiOder.updateOrder);
 router.delete("/deletebyUid/:id", apiOder.deletebyUid);
-
-const getRestaurantInfo = async (req, res, next) => {
-  try {
-    const user = req.session.user;
-    if (user) {
-      req.restaurant = user;
-    } else {
-      console.error("Lỗi: req.session.user không tồn tại.");
-      return res.status(401).json({ msg: "Không có thông tin nhà hàng" });
-    }
-    next();
-  } catch (error) {
-    console.error("Lỗi khi lấy thông tin nhà hàng:", error);
-    return res.status(500).json({ msg: "Lỗi máy chủ nội bộ" });
-  }
-};
-router.get("/revenueByTime", getRestaurantInfo, apiOder.getRevenueByDate);
- 
-router.get("/revenue", getRestaurantInfo, apiOder.getRevenue);
 router.get("/order/:userId", apiOder.getOrdersByUser);
-router.get("/revenue", getRestaurantInfo, apiOder.getRevenue);
+
 
 // lịch sủ mua hàng
 router.post("/history/create", apiHistory.createOrderSuccess);
@@ -52,7 +33,9 @@ router.get("/history", apiHistory.getHistory);
 router.get("/ordersByUser/:userId", apiHistory.getUserHistory);
 router.delete("/history/delete", apiHistory.deleteHistory);
 router.delete("/history/deleteAll", apiHistory.deleteHistoryAll);
-router.get("/update-order-status/:orderId", apiHistory.updateOrderStatusByRestaurant);
+router.put("/update-order-status/:orderId", apiHistory.updateOrderStatusByRestaurant);
+router.put("/user/cancel", apiHistory.cancelOrder);
+router.get("/revenue", apiHistory.getRevenue);
 //slider
 router.get("/slider/getAll", apiSlider.getSliders);
 //comment

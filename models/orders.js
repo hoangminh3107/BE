@@ -12,13 +12,17 @@ const orderSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        productId:{
+            type:String , 
+            required:true
+        },
         image: String,
         price: {
             type: Number,
             required: true,
         },
         restaurant: {
-            type: mongoose.Types.ObjectId,
+            type: String,
             required: true,
         },
         quantity: {

@@ -15,9 +15,14 @@ const historySchame = new mongoose.Schema({
         require: true,
     },
     products: [{
+        // id nhà hàng
+        restaurantId: {
+            type: String,
+            required: true,
+        },
         productId: {
             type: mongoose.Schema.Types.ObjectId, // Hoặc String, nếu bạn lưu trữ ID như một chuỗi
-            required: true
+            required: true,
         },
         name: {
             type: String,
@@ -43,7 +48,7 @@ const historySchame = new mongoose.Schema({
     status: {
         type: Number,
         required: true,
-        enum: [0, 1, 2],  
+        enum: [0, 1, 2, 3],  
         default: 0     
     },
     notes:{
