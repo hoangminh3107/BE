@@ -43,6 +43,7 @@ exports.createOrder = async (req, res) => {
             const order = new Order({
               userId: req.body.userId,
               restaurantName: product.restaurantId.name,
+              productId: req.body.productId,
               name: product.name,
               image: product.image,
               restaurant:req.body.restaurant,
@@ -61,6 +62,7 @@ exports.createOrder = async (req, res) => {
         const order = new Order({
           userId: req.body.userId,
           restaurantName: product.restaurantId.name,
+          productId: req.body.productId,
           name: product.name,
           image: product.image,
           restaurant:req.body.restaurant,
