@@ -16,9 +16,25 @@ exports.getSuggest = async (req, res, next) => {
     return res.status(500).json({ msg: error.message });
   }
 };
+exports.dataProductRestaurant = async (req, res, next) => {
+  const id = req.session.user?._id;
+  try {
+    let list = await productModel.productModel.find({
+      restaurantId: id,
+    });
+    console.log(list);
+    if (list) {
+      return list;
+    } else {
+      return res.status(400).json({ msg: "Lay du lieu san pham thanh cong" });
+    }
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+};
+
 exports.getProductInRestaurant = async (req, res, next) => {
   const restaurantId = req.params.id;
-
   try {
     let list = await productModel.productModel.find({
       restaurantId,
@@ -102,4 +118,4 @@ exports.getListProduct = async (req, res, next) => {
   } catch (error) {
     return res.status(204).json({ msg: error.message });
   }
-}
+};
