@@ -1,13 +1,14 @@
 var historyModel = require('../models/history');
 const ProductModel =require('../models/product.model');
 const mongoose = require('mongoose');
-
+const notify = require("../controllers/notify.controller");
 
 exports.createOrderSuccess = async (req, res, next) => {
     console.log("data",req.body);
     try {
       const OrderSuccess = new historyModel.History(req.body);
       let new_OrderSuccess = await OrderSuccess.save();
+        notify.postNotify(req.body);
       return res.status(200).json({ OrderSuccess: new_OrderSuccess });
     } catch (error) {
       console.log(error);
